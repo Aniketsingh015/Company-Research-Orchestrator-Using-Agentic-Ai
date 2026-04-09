@@ -1,0 +1,197 @@
+Assigned,ID,Applicable to,Test Case Category,Test Case Type,Description,Example Test Scenarios,Priority
+Seetharam,1.1,Specific-Parameters,INPUT VALIDATION,Valid Standard Input,"Test with standard, well-formatted company names","• Test: 'Microsoft Corporation'
+• Test: 'Apple Inc.'
+• Test: 'Tesla, Inc.'",High
+Seetharam,1.2,Per-Parameter,INPUT VALIDATION,Invalid/Empty Input,"Test with null, empty, or whitespace-only inputs","• Test: '' (empty string)
+• Test: '   ' (whitespace)
+• Test: NULL value",High
+Seetharam,1.3,Per-Parameter,INPUT VALIDATION,Special Characters Input,Test with special characters and symbols,"• Test: '@#$%^&*()'
+• Test: 'Company™ & Co.®'
+• Test: 'Café Résumé'",Medium
+Seetharam,1.4,Per-Parameter,INPUT VALIDATION,Malformed Input,Test with misspelled or incomplete company names,"• Test: 'Microsft' (misspelled)
+• Test: 'App' (incomplete)
+• Test: 'Goog' (abbreviated)",Medium
+Seetharam,1.5,Per-Parameter,INPUT VALIDATION,Ambiguous Input,Test with generic names matching multiple entities,"• Test: 'Delta' (airline/faucets/dental)
+• Test: 'Mercury' (payments/insurance/planet)
+• Test: 'Amazon' (company/river)",High
+Seetharam,1.6,Per-Parameter,INPUT VALIDATION,Case Sensitivity,Test different case variations of company names,"• Test: 'microsoft'
+• Test: 'MICROSOFT'
+• Test: 'MiCrOsOfT'",Low
+Seetharam,2.1,All-Parameters,DATA COMPLETENESS,Complete Profile,All mandatory and optional fields populated,"• Test with Fortune 500 companies
+• Verify all 150+ fields have values
+• Check data richness score",High
+Seetharam,2.2,All-Parameters,DATA COMPLETENESS,Partial Profile,Only some fields populated for lesser-known entities,"• Test with small startups
+• Test with private companies
+• Verify graceful degradation",High
+Syed,2.3,Per-Parameter,DATA COMPLETENESS,Empty Response,No data generated for non-existent companies,"• Test: 'NonExistentCompanyXYZ123'
+• Test: 'FakeCorpABC'
+• Verify appropriate null handling",Medium
+Syed,2.4,Per-Parameter,DATA COMPLETENESS,Mandatory Fields Only,"Critical fields present, optional fields missing","• Verify: Company Name, Category always present
+• Allow: Awards, ESG Practices to be empty
+• Test classification of mandatory vs optional",High
+Syed,2.5,Per-Parameter,DATA COMPLETENESS,Field Dependency,Related fields populated together or empty together,"• If CEO Name exists, CEO LinkedIn should exist
+• If funding exists, investors should exist
+• Check logical field groupings",Medium
+Syed,3.1,All-Parameters,DATA ACCURACY,Factual Correctness,Verify against known ground truth data,"• Cross-check CEO name with LinkedIn
+• Verify revenue with SEC filings
+• Compare employee count with Crunchbase",Critical
+Syed,3.2,Specific-Parameters,DATA ACCURACY,Temporal Accuracy,Current data vs outdated information,"• Verify current CEO (not former)
+• Check latest funding round date
+• Validate recent acquisitions",Critical
+Syed,3.3,Specific-Parameters,DATA ACCURACY,Numerical Precision,Accuracy of numerical values,"• Revenue: $50.3B vs $50B vs $50,300M
+• Employee count: 10,000 vs 10K vs ~10,000
+• Ratings: 4.2 vs 4.20 vs 4",High
+Syed,3.4,Per-Parameter,DATA ACCURACY,Cross-Field Consistency,Values align across related fields,"• Year of Incorporation ? CEO tenure start
+• Total funding = sum of all rounds
+• CAC:LTV ratio = LTV/CAC",High
+Syed,3.5,All-Parameters,DATA ACCURACY,Source Attribution,Ability to trace data back to sources,"• Check if sources are cited
+• Verify source dates
+• Validate source credibility",Medium
+Keerthan,4.1,All-Parameters,HALLUCINATION DETECTION,Fabricated Entities,"Detection of invented people, events, or data","• Cross-check executive names don't exist
+• Verify funding rounds aren't fabricated
+• Validate award names are real",Critical
+Keerthan,4.2,All-Parameters,HALLUCINATION DETECTION,Plausible but False,Reasonable-sounding incorrect information,"• CEO name sounds real but is wrong person
+• Funding amount plausible but incorrect
+• Office locations exist but company not there",Critical
+Keerthan,4.3,All-Parameters,HALLUCINATION DETECTION,Confident Incorrectness,Wrong data presented with high certainty,"• Assertive statements about unverifiable facts
+• Specific numbers that can't be confirmed
+• Definitive claims without sources",High
+Keerthan,5.1,Specific-Parameters,INTERNAL CONSISTENCY,Calculated Field Accuracy,Derived fields match their source values,"• CAC:LTV = LTV ÷ CAC
+• YoY Growth = (Rev_Y2 - Rev_Y1)/Rev_Y1
+• Burn Multiplier = Net Burn ÷ Net New ARR",High
+Keerthan,5.2,Per-Parameter,INTERNAL CONSISTENCY,Logical Consistency,Fields logically align with each other,"• If Profitable, Profits > 0
+• If Pre-revenue, Revenue = 0
+• If Public, Funding Rounds complete",High
+Keerthan,5.3,Specific-Parameters,INTERNAL CONSISTENCY,Timeline Consistency,Chronological events in correct order,"• Incorporation < First Funding < IPO
+• CEO tenure start > Company founding
+• Recent news within specified timeframe",High
+Keerthan,5.4,Per-Parameter,INTERNAL CONSISTENCY,Format Consistency,Standardized formatting across fields,"• Date format: YYYY-MM-DD or MM/DD/YYYY
+• Currency: all USD or mixed with notation
+• Phone: +1-XXX-XXX-XXXX vs (XXX) XXX-XXXX",Medium
+Keerthan,5.5,All-Parameters,INTERNAL CONSISTENCY,Cross-Parameter Consistency,Related metrics support each other,"• High hiring velocity + low turnover = growth
+• Large employee size + many offices = scale
+• High NPS + low churn = customer satisfaction",Medium
+Khushi,6.1,Per-Parameter,EDGE CASES,Very New Companies,Startups with minimal public information,"• Test: Companies < 6 months old
+• Test: Stealth mode startups
+• Test: Recently announced companies",High
+Khushi,6.2,Per-Parameter,EDGE CASES,Very Large Companies,Conglomerates with complex structures,"• Test: Berkshire Hathaway (conglomerate)
+• Test: Alphabet (holding company)
+• Test: Multinational corporations",High
+Khushi,6.3,Per-Parameter,EDGE CASES,Private Companies,Limited publicly available data,"• Test: Private equity owned
+• Test: Family-owned businesses
+• Test: Unlisted companies",High
+Khushi,7.1,Per-Parameter,BOUNDARY VALUES,Extreme High Values,Very large numbers at upper bounds,"• Employee count: 2,000,000+ (Walmart)
+• Revenue: $500B+ (Amazon)
+• Market cap: $3T+ (Apple)",Medium
+Khushi,7.2,Per-Parameter,BOUNDARY VALUES,Zero Values,Legitimate zero values in numeric fields,"• Zero offices beyond HQ (remote company)
+• Zero funding (bootstrapped)
+• Zero turnover (very new/stable)",Medium
+Khushi,7.3,Specific-Parameters,BOUNDARY VALUES,Negative Values,Fields that can be negative,"• Negative profits (loss-making)
+• Negative growth rate (declining)
+• Negative cash flow",High
+Khushi,7.4,Specific-Parameters,BOUNDARY VALUES,Percentage Bounds,Values constrained to 0-100%,"• Market share: 0-100%
+• Churn rate: 0-100%
+• YoY growth: can exceed 100%
+• Profit margin: can be negative",High
+Khushi,7.5,Specific-Parameters,BOUNDARY VALUES,Date Boundaries,Invalid or extreme dates,"• Future dates (invalid for historical)
+• Very old dates (1800s)
+• Year 2000 (Y2K edge cases)",Low
+Kapil,7.6,Specific-Parameters,BOUNDARY VALUES,Ratio Boundaries,Ratios with special meaning at extremes,"• CAC:LTV = 0 (no CAC or infinite LTV)
+• CAC:LTV < 1 (unprofitable acquisition)
+• Burn multiplier = ? (no new ARR)",High
+Kapil,8.1,All-Parameters,FORMAT & STRUCTURE,Data Type Validation,Correct data types for each field,"• Numbers stored as numbers, not strings
+• Dates in date format
+• Booleans as true/false",High
+Kapil,8.2,Specific-Parameters,FORMAT & STRUCTURE,URL Validity,Working vs broken links,"• Test: Valid URLs (200 status)
+• Test: Broken links (404)
+• Test: Redirects (301/302)",High
+Kapil,8.5,Specific-Parameters,FORMAT & STRUCTURE,List Formatting,Consistent delimiters for multi-value fields,"• Countries: comma-separated
+• Office locations: consistent structure
+• Investor list: standardized format",Medium
+Kapil,8.6,Specific-Parameters,FORMAT & STRUCTURE,Text Length Validation,Fields within reasonable character limits,"• Short name: < 50 chars
+• Overview: 200-500 chars
+• Description fields: < 2000 chars",Medium
+Kapil,9.3,All-Parameters,ADVERSARIAL TESTS,Context Confusion,Similar names in sequence,"• Test multiple 'Delta' companies in batch
+• Test 'Apple Inc.' then 'Apple Bank'
+• Test name variations consecutively",Medium
+Kapil,10.1,All-Parameters,TEMPORAL VALIDITY,Knowledge Cutoff Events,Events after LLM training data cutoff,"• Test: Recent CEO changes (2025)
+• Test: Latest funding rounds
+• Test: Current product launches",Critical
+Kapil,10.2,All-Parameters,TEMPORAL VALIDITY,Recent Structural Changes,"M&A, restructuring post-cutoff","• Recent acquisitions not in training data
+• New subsidiaries
+• Corporate spin-offs",High
+Karthikeya,10.3,Specific-Parameters,TEMPORAL VALIDITY,Market Position Changes,Shifted competitive landscape,"• New market entrants
+• Changed market leaders
+• Disrupted industries",High
+Karthikeya,10.4,Specific-Parameters,TEMPORAL VALIDITY,Regulatory Updates,Changed compliance requirements,"• New GDPR enforcement
+• Updated industry regulations
+• Changed certification requirements",High
+Karthikeya,10.5,All-Parameters,TEMPORAL VALIDITY,Crisis Events,Recent disruptions or scandals,"• Recent layoffs
+• Public controversies
+• Business disruptions",High
+Karthikeya,11.1,All-Parameters,AMBIGUITY RESOLUTION,Multiple Entities Same Name,Disambiguation of identical names,"• Test: 'Delta' (multiple industries)
+• Test: 'Target' (retail vs. brand agency)
+• Verify correct entity selected",Critical
+Karthikeya,11.2,All-Parameters,AMBIGUITY RESOLUTION,Subsidiaries vs Parent,Distinguishing related entities,"• Test: Google vs Alphabet
+• Test: Instagram vs Meta
+• Test: YouTube vs Google",High
+Karthikeya,11.3,All-Parameters,AMBIGUITY RESOLUTION,Geographic Variants,"Same company, different regions","• Test: Unilever (UK vs Netherlands)
+• Test: Royal Dutch Shell
+• Test: Multinational with separate entities",Medium
+Karthikeya,11.4,All-Parameters,AMBIGUITY RESOLUTION,Abbreviation Handling,Full name vs acronym,"• Test: IBM vs International Business Machines
+• Test: AT&T vs American Telephone & Telegraph
+• Test: 3M vs Minnesota Mining and Manufacturing",Medium
+Karthikeya,11.5,Specific-Parameters,AMBIGUITY RESOLUTION,Legal Entity Names,Official vs common names,"• Test: Meta Platforms, Inc. vs Meta
+• Test: X Corp vs Twitter
+• Verify correct legal entity identification",Medium
+Karthikeya,12.1,Specific-Parameters,CLASSIFICATION & CATEGORIZATION,Company Category,Startup/MSME/SMB/Investor/VC classification,"• Test: Seed stage startup ? 'Startup'
+• Test: 500-employee company ? 'SMB'
+• Test: Sequoia Capital ? 'VC'",High
+Karthikeya,12.2,Specific-Parameters,CLASSIFICATION & CATEGORIZATION,Industry Classification,Accurate GICS sector assignment,"• Test: Stripe ? Financial Technology
+• Test: Tesla ? Automotive & Clean Energy
+• Test: Amazon ? E-commerce & Cloud",High
+Rethees,12.3,Specific-Parameters,CLASSIFICATION & CATEGORIZATION,Nature of Company,Private/Public/Subsidiary correctly identified,"• Test: SpaceX ? Private
+• Test: Apple ? Public
+• Test: WhatsApp ? Subsidiary",High
+Rethees,12.4,Specific-Parameters,CLASSIFICATION & CATEGORIZATION,Sentiment Scoring,Appropriate sentiment classification,"• Test: Brand sentiment (positive/neutral/negative)
+• Test: Glassdoor rating categorization
+• Test: NPS score interpretation",Medium
+Rethees,12.5,Specific-Parameters,CLASSIFICATION & CATEGORIZATION,Risk Classification,Appropriate risk level assignment,"• Test: Customer concentration risk
+• Test: Geopolitical risk level
+• Test: Burn rate risk assessment",Medium
+Rethees,13.2,All-Parameters,SCALE & PERFORMANCE,Response Time,Generation time for different company types,"• Measure: Time for Fortune 500 company
+• Measure: Time for startup
+• Compare: Public vs private company time",Medium
+Rethees,13.3,All-Parameters,SCALE & PERFORMANCE,Token Limit Handling,Long content not inappropriately truncated,"• Test: Companies with long descriptions
+• Test: Many office locations
+• Verify: No mid-sentence cutoffs",High
+Rethees,13.4,All-Parameters,SCALE & PERFORMANCE,Memory Independence,No cross-contamination between requests,"• Test: Company A then Company B
+• Verify: No data from A in B's profile
+• Test: Batch of similar companies",Critical
+Rethees,14.1,All-Parameters,NULL/NA HANDLING,Unavailable Data,Graceful handling when data doesn't exist,"• Test: Private company financials
+• Test: Undisclosed funding amounts
+• Verify: Appropriate null/NA/unknown values",High
+Rethees,14.2,All-Parameters,NULL/NA HANDLING,Not Applicable Fields,Fields that don't apply to entity type,"• VC firm: 'Products' = N/A
+• Bootstrapped: 'Investors' = N/A
+• Remote company: 'Office Locations' = N/A",High
+Aniket,14.3,All-Parameters,NULL/NA HANDLING,Ambiguous Availability,Unclear if data exists or just not found,"• Data might exist but not public
+• Data not yet generated (new company)
+• Data previously existed but removed",Medium
+Aniket,14.4,All-Parameters,NULL/NA HANDLING,Default Value Handling,Appropriate vs inappropriate defaults,"• Don't default: Revenue = $0
+• Can default: Remote policy = 'Unknown'
+• Context-dependent defaults",Medium
+Aniket,14.5,Per-Parameter,NULL/NA HANDLING,Null Propagation,Null handling in calculated fields,"• If Revenue = null, YoY Growth = null
+• If CAC = null, CAC:LTV = null
+• Appropriate null arithmetic",High
+Aznan,15.1,All-Parameters,QUALITY THRESHOLDS,Confidence Levels,High-confidence vs speculative data,"• Flag: Estimated vs confirmed values
+• Indicate: Public vs inferred data
+• Score: Data confidence level",Medium
+Aznan,15.2,All-Parameters,QUALITY THRESHOLDS,Source Quality Tiers,Primary vs secondary vs tertiary sources,"• Tier 1: Official company website, SEC filings
+• Tier 2: Crunchbase, LinkedIn, press releases
+• Tier 3: News articles, blog posts",Medium
+Aznan,15.3,All-Parameters,QUALITY THRESHOLDS,Recency Scoring,Recent vs outdated information,"• Recent: Last 6 months
+• Acceptable: Last 12 months
+• Outdated: >12 months",High
+Aznan,15.5,All-Parameters,QUALITY THRESHOLDS,Overall Quality Score,Composite quality metric,"• Combine: Accuracy + Completeness + Recency
+• Weight by field importance
+• Provide quality grade (A-F)",High

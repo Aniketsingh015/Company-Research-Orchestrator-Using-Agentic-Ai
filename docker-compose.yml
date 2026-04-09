@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  # Company Research Agent API
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: company-research-api
+    ports:
+      - "8000:8000"
+    environment:
+      # Groq API
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      
+      # Supabase
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - SUPABASE_DB_URL=${SUPABASE_DB_URL}
+      
+      # LLM Config
+      - LLM_PROVIDER=groq
+      - DEFAULT_MODEL=llama-3.3-70b-versatile
+      
+      # Redis (for future task queue)
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - company-research-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Redis for task queue (optional, for future Celery integration)
+  redis:
+    image: redis:7-alpine
+    container_name: company-research-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - company-research-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: company-research-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - company-research-network
+
+volumes:
+  redis-data:
+
+networks:
+  company-research-network:
+    driver: bridge
